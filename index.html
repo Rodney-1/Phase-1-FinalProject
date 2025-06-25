@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    
+    <div id="app">
+        <header>
+            <h1>Goal Tracker</h1>
+            <p>Track your goals and achievements</p>
+            <p id="current-date"></p>
+        </header>
+            <div id="reward">
+                <!-- A reward for your achievements will be displayed here! -->
+            </div>
+
+            <form id="goal-form">
+                <input type="text" id="goal-input" placeholder="Enter the day's goal...">
+                <button type="submit">Add Goal</button>
+            </form>
+       <div id="goal-list">
+           <h2>Today's Goals</h2>
+           <ul>
+               <!-- List of goals will be displayed here -->
+           </ul>
+       </div>
+    </div>
+    <script src="./index.js"></script>
 </body>
 </html>
