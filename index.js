@@ -34,3 +34,24 @@ let savedGoals = JSON.parse(localStorage.getItem("goals")) || [];
 function saveGoals() {
     localStorage.setItem("goals", JSON.stringify(savedGoals));
 }
+
+// App initialization
+document.addEventListener("DOMContentLoaded", initApp);
+
+async function initApp() {
+    await fetchGoals();    // Fetch goals from the server
+    setupEventListeners();   // Set up event listeners
+}
+
+// API endpoint to fetch goals
+const API_URL = "http://localhost:3000/goals";
+const GOALS_URL = `${API_URL}/goals`;
+
+// Event listener setup
+function setupEventListeners() {
+    goalForm.addEventListener("submit", addGoal);
+    goalList.addEventListener("click", handleGoalClick);
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", filterGoals);
+    });
+}
