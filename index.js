@@ -7,33 +7,13 @@ dateElement.textContent = `Today's Date: ${today.toDateString()}`;
 const goalForm = document.getElementById("goal-form");
 const goalInput = document.getElementById("goal-input");
 const goalList = document.querySelector("#goal-list ul");
-const rewardDiv = document.getElementById("reward");
+const rewardDiv = document.querySelector("#reward");
+const filterButtons = document.querySelectorAll(".filter-button");
 
-// Function to add a new goal
-function addGoal(event) {
-    event.preventDefault();
-    const goalText = goalInput.value.trim();
-    
-    if (goalText === "") {
-        alert("Please enter a goal.");
-        return;
-    }
 
-    const li = document.createElement("li");
-    li.textContent = goalText;
-    goalList.appendChild(li);
-    
-    // Clear the input field
-    goalInput.value = "";
-}
-
-// Load existing goals from localStorage
-let savedGoals = JSON.parse(localStorage.getItem("goals")) || [];
-
-// Save goals
-function saveGoals() {
-    localStorage.setItem("goals", JSON.stringify(savedGoals));
-}
+// API endpoint to fetch goals
+const API_URL = "http://localhost:3000/goals";
+const GOALS_URL = `${API_URL}/goals`;
 
 // App initialization
 document.addEventListener("DOMContentLoaded", initApp);
@@ -43,15 +23,113 @@ async function initApp() {
     setupEventListeners();   // Set up event listeners
 }
 
-// API endpoint to fetch goals
-const API_URL = "http://localhost:3000/goals";
-const GOALS_URL = `${API_URL}/goals`;
-
 // Event listener setup
 function setupEventListeners() {
-    goalForm.addEventListener("submit", addGoal);
+    goalForm.addEventListener("submit", handleGoalSubmit);
     goalList.addEventListener("click", handleGoalClick);
     filterButtons.forEach(btn => {
         btn.addEventListener("click", filterGoals);
     });
 }
+
+// Form Submission of a new goal
+async function handleGoalClick(e) {
+    e.preventDefault();
+
+    const goalText = goalInput.value.trim();
+    
+    if (goalText === "") {
+        alert("Please enter a goal.");
+        return;
+    }
+
+    await fetch(GOALS_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: goalInput.value }),
+        text: goalInput.value,
+        completed: false,
+        date: new Date().toISOString().split("T")[0]
+    });
+    goalInput.value = ""; // Clear input after submission
+    await fetchGoals(); // Refresh the goal list
+}
+
+// Fetch goals from the server
+async function fetchGoals(filter = "all") {
+    const res = await fetch(GOALS_URL);
+    let goals = await res.json();
+}
+
+// Apply filters 
+goals = goals.filter(goal => {
+    if (filter === "completed") {
+        return goal.completed;
+    } else if (filter === "incomplete") {
+        return !goal.completed;
+    }
+    return true; // For 'all' filter
+});
+
+// Clear the current list
+goalList.innerHTML = "";
+
+// Populate the list with fetched goals
+goals.forEach(goal => {
+    const li = document.createElement("li");
+    li.className = goal.completed ? "completed" : "";
+    li.innerHTML =`<span>${goal.text}</span>
+                  <button class="complete-button" data-id="${goal.id}">${goal.completed ? "✅" : "Done"}</button>
+                  <button class="delete-button" data-id="${goal.id}">🗑️</button>`;
+    goalList.appendChild(li);
+});
+
+// Handle complete and delete actions
+async function handleGoalClick(e) {
+       const goalId = e.target.dataset.id;
+    if (e.target.classList.contains("complete-button")) {
+        await toggleGoalCompletion(goalId);
+    }
+    if (e.target.classList.contains("delete-button")) {
+        await deleteGoal(goalId);
+    }
+    await fetchGoals();
+}
+
+// Toggle goal completion
+async function toggleGoalCompletion(goalId) {
+    const res = await fetch(`${GOALS_URL}/${goalId}`);
+    const goal = await res.json();
+
+    await fetch(`${GOALS_URL}/${goalId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ completed: !goal.completed })
+    });
+}
+
+// Delete a goal
+async function deleteGoal(goalId) {
+    await fetch(`${GOALS_URL}/${goalId}`, {
+        method: "DELETE"
+    });
+}
+
+// Filter goals based on completion status
+function filterGoals(e) {
+    const filter = e.target.dataset.filter;
+    fetchGoals(filter);
+}
+
+
+
+
+
+
+
+
+   
