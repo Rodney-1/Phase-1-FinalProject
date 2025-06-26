@@ -12,7 +12,7 @@ const filterButtons = document.querySelectorAll(".filter-button");
 
 
 // API endpoint to fetch goals
-const API_URL = "http://localhost:3000/goals";
+const API_URL = "http://localhost:8080/goals";
 const GOALS_URL = `${API_URL}/goals`;
 
 // App initialization
@@ -59,7 +59,7 @@ async function handleGoalSubmit(e) {
 }
 // Fetch goals from the server
 async function fetchGoals(filter = "all") {
-    const res = await fetch(GOALS_URL);
+    const res = await fetch('http://localhost:8080/goals');
     let goals = await res.json();
 
     // Apply filters 
