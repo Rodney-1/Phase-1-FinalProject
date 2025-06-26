@@ -33,7 +33,7 @@ function setupEventListeners() {
 }
 
 // Form Submission of a new goal
-async function handleGoalClick(e) {
+async function handleGoalSubmit(e) {
     e.preventDefault();
 
     const goalText = goalInput.value.trim();
@@ -48,54 +48,55 @@ async function handleGoalClick(e) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ text: goalInput.value }),
-        text: goalInput.value,
-        completed: false,
-        date: new Date().toISOString().split("T")[0]
+        body: JSON.stringify({ 
+            text: goalText,
+            completed: false,
+            date: new Date().toISOString().split("T")[0]
+        })
     });
     goalInput.value = ""; // Clear input after submission
     await fetchGoals(); // Refresh the goal list
 }
-
 // Fetch goals from the server
 async function fetchGoals(filter = "all") {
     const res = await fetch(GOALS_URL);
     let goals = await res.json();
+
+    // Apply filters 
+    goals = goals.filter(goal => {
+        if (filter === "completed") {
+            return goal.completed;
+        } else if (filter === "incomplete") {
+            return !goal.completed;
+        }
+        return true; // For 'all' filter
+    });
+
+    // Clear the current list
+    goalList.innerHTML = "";
+
+    // Populate the list with fetched goals
+    goals.forEach(goal => {
+        const li = document.createElement("li");
+        li.className = goal.completed ? "completed" : "";
+        li.innerHTML =`<span>${goal.text}</span>
+                      <button class="complete-button" data-id="${goal.id}">${goal.completed ? "✅" : "Done"}</button>
+                      <button class="delete-button" data-id="${goal.id}">🗑️</button>`;
+        goalList.appendChild(li);
+    });
 }
-
-// Apply filters 
-goals = goals.filter(goal => {
-    if (filter === "completed") {
-        return goal.completed;
-    } else if (filter === "incomplete") {
-        return !goal.completed;
-    }
-    return true; // For 'all' filter
-});
-
-// Clear the current list
-goalList.innerHTML = "";
-
-// Populate the list with fetched goals
-goals.forEach(goal => {
-    const li = document.createElement("li");
-    li.className = goal.completed ? "completed" : "";
-    li.innerHTML =`<span>${goal.text}</span>
-                  <button class="complete-button" data-id="${goal.id}">${goal.completed ? "✅" : "Done"}</button>
-                  <button class="delete-button" data-id="${goal.id}">🗑️</button>`;
-    goalList.appendChild(li);
-});
 
 // Handle complete and delete actions
 async function handleGoalClick(e) {
-       const goalId = e.target.dataset.id;
+    const goalId = e.target.dataset.id;
     if (e.target.classList.contains("complete-button")) {
         await toggleGoalCompletion(goalId);
+        await fetchGoals();
     }
     if (e.target.classList.contains("delete-button")) {
         await deleteGoal(goalId);
+        await fetchGoals();
     }
-    await fetchGoals();
 }
 
 // Toggle goal completion
