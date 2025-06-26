@@ -80,7 +80,7 @@ async function fetchGoals(filter = "all") {
         const li = document.createElement("li");
         li.className = goal.completed ? "completed" : "";
         li.innerHTML =`<span>${goal.text}</span>
-                      <button class="complete-button" data-id="${goal.id}">${goal.completed ? "✅" : "Done"}</button>
+                      <button class="complete-button" data-id="${goal.id}">✔️</button>
                       <button class="delete-button" data-id="${goal.id}">🗑️</button>`;
         goalList.appendChild(li);
     });
