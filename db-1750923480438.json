@@ -15,7 +15,7 @@
     {
       "id": 3,
       "text": "Meetup with friends",
-      "completed": true,
+      "completed": false,
       "date": "2025-06-26"
     },
     {
@@ -27,14 +27,20 @@
     {
       "id": 5,
       "text": "Visit a prison",
-      "completed": false,
+      "completed": true,
       "date": "2025-06-26"
     },
     {
-      "id": 6,
+      "text": "Finish Phase Project",
+      "completed": false,
+      "date": "2025-06-26",
+      "id": 6
+    },
+    {
       "text": "Read a book",
-      "completed": true,
-      "date": "2025-06-26"
+      "completed": false,
+      "date": "2025-06-26",
+      "id": 7
     }
   ]
 }
