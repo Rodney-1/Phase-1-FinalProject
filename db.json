@@ -1,0 +1,43 @@
+{
+    "goals": [
+        {
+            "id": 1,
+            "text": "Workout for 30 minutes",
+            "completed": true,
+            "date": "2025-06-26"
+        },
+        {
+            "id": 2,
+            "text": "Complete a coding challenge",
+            "completed": true,
+            "date": "2025-06-26"
+        },
+        {
+            "id": 3,
+            "text": "Meetup with friends",
+            "completed": true,
+            "date": "2025-06-26"
+        },
+        {
+            "id": 4,
+            "text": "Watch a movie",
+            "completed": true,
+            "date": "2025-06-26"
+        },
+        {
+            "id": 5,
+            "text": "Visit a prison",
+            "completed": false,
+            "date": "2025-06-26"
+        },
+        {
+            "id": 6,
+            "text": "Read a book",
+            "completed": true,
+            "date": "2025-06-26"
+        }
+      
+    ]
+
+
+}
