@@ -43,7 +43,7 @@ async function handleGoalSubmit(e) {
         return;
     }
 
-    await fetch(GOALS_URL, {
+    await fetch('http://localhost:8080/goals', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -101,21 +101,22 @@ async function handleGoalClick(e) {
 
 // Toggle goal completion
 async function toggleGoalCompletion(goalId) {
-    const res = await fetch(`${GOALS_URL}/${goalId}`);
+    const res = await fetch(`${API_URL}/${goalId}`);
     const goal = await res.json();
 
-    await fetch(`${GOALS_URL}/${goalId}`, {
+    await fetch(`${API_URL}/${goalId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ completed: !goal.completed })
     });
+    console.log(`Goal ${goalId} completion toggled.`);
 }
 
 // Delete a goal
 async function deleteGoal(goalId) {
-    await fetch(`${GOALS_URL}/${goalId}`, {
+    await fetch(`${API_URL}/${goalId}`, {
         method: "DELETE"
     });
 }
