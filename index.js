@@ -127,6 +127,15 @@ function filterGoals(e) {
     fetchGoals(filter);
 }
 
+// Reward system
+rewardDiv.addEventListener("click", () => {
+    const rewardText = "Congratulations! You've achieved your goal!";
+    const rewardElement = document.createElement("div");
+    rewardElement.className = "reward-message";
+    rewardElement.textContent = rewardText;
+    document.body.appendChild(rewardElement);
+});
+
 
 
 
