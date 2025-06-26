@@ -12,8 +12,7 @@ const filterButtons = document.querySelectorAll(".filter-button");
 
 
 // API endpoint to fetch goals
-const API_URL = "http://localhost:8080/goals";
-const GOALS_URL = `${API_URL}/goals`;
+const BASE_URL = "http://localhost:8080/goals";
 
 // App initialization
 document.addEventListener("DOMContentLoaded", initApp);
@@ -43,7 +42,7 @@ async function handleGoalSubmit(e) {
         return;
     }
 
-    await fetch('http://localhost:8080/goals', {
+    await fetch(`${BASE_URL}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -91,20 +90,20 @@ async function handleGoalClick(e) {
     const goalId = e.target.dataset.id;
     if (e.target.classList.contains("complete-button")) {
         await toggleGoalCompletion(goalId);
-        await fetchGoals();
-    }
-    if (e.target.classList.contains("delete-button")) {
+    } else if (e.target.classList.contains("delete-button")) {
         await deleteGoal(goalId);
-        await fetchGoals();
     }
+    await fetchGoals(); // Only once after action
 }
 
-// Toggle goal completion
+
+// Toggle goal completion with reward
 async function toggleGoalCompletion(goalId) {
-    const res = await fetch(`${API_URL}/${goalId}`);
+    const res = await fetch(`${BASE_URL}/${goalId}`);
     const goal = await res.json();
 
-    await fetch(`${API_URL}/${goalId}`, {
+
+    await fetch(`${BASE_URL}/${goalId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -112,14 +111,26 @@ async function toggleGoalCompletion(goalId) {
         body: JSON.stringify({ completed: !goal.completed })
     });
     console.log(`Goal ${goalId} completion toggled.`);
+
+    if (!goal.completed) {
+        showReward(goal.text);
+    } else {
+        rewardDiv.innerHTML = ""; // Clear reward if goal is marked incomplete
+    }
 }
 
-// Delete a goal
-async function deleteGoal(goalId) {
-    await fetch(`${API_URL}/${goalId}`, {
-        method: "DELETE"
-    });
+// Reward system
+function showReward(goalText) {
+    rewardDiv.innerHTML = `<div class="reward-message">
+        🎉 Congratulations! You've achieved your goal: "${goalText}"
+    </div>`;
 }
+    // Delete a goal
+    async function deleteGoal(goalId) {
+        await fetch(`${BASE_URL}/${goalId}`, {
+            method: "DELETE"
+        });
+    }
 
 // Filter goals based on completion status
 function filterGoals(e) {
@@ -127,14 +138,6 @@ function filterGoals(e) {
     fetchGoals(filter);
 }
 
-// Reward system
-rewardDiv.addEventListener("click", () => {
-    const rewardText = "Congratulations! You've achieved your goal!";
-    const rewardElement = document.createElement("div");
-    rewardElement.className = "reward-message";
-    rewardElement.textContent = rewardText;
-    document.body.appendChild(rewardElement);
-});
 
 
 

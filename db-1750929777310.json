@@ -1,15 +1,9 @@
 {
   "goals": [
     {
-      "id": 1,
-      "text": "Workout for 30 minutes",
-      "completed": true,
-      "date": "2025-06-26"
-    },
-    {
       "id": 2,
       "text": "Complete a coding challenge",
-      "completed": true,
+      "completed": false,
       "date": "2025-06-26"
     },
     {
@@ -31,16 +25,22 @@
       "date": "2025-06-26"
     },
     {
-      "text": "Finish Phase Project",
-      "completed": false,
-      "date": "2025-06-26",
-      "id": 6
-    },
-    {
       "text": "Read a book",
       "completed": false,
       "date": "2025-06-26",
       "id": 7
+    },
+    {
+      "text": "Finish Phase Project",
+      "completed": false,
+      "date": "2025-06-26",
+      "id": 8
+    },
+    {
+      "text": "Workout for 30 minutes",
+      "completed": false,
+      "date": "2025-06-26",
+      "id": 9
     }
   ]
 }

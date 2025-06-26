@@ -1,15 +1,9 @@
 {
   "goals": [
     {
-      "id": 2,
-      "text": "Complete a coding challenge",
-      "completed": false,
-      "date": "2025-06-26"
-    },
-    {
       "id": 3,
       "text": "Meetup with friends",
-      "completed": false,
+      "completed": true,
       "date": "2025-06-26"
     },
     {
@@ -21,7 +15,7 @@
     {
       "id": 5,
       "text": "Visit a prison",
-      "completed": true,
+      "completed": false,
       "date": "2025-06-26"
     },
     {
@@ -41,6 +35,12 @@
       "completed": false,
       "date": "2025-06-26",
       "id": 9
+    },
+    {
+      "text": "Complete a code challenge",
+      "completed": false,
+      "date": "2025-06-26",
+      "id": 10
     }
   ]
 }
