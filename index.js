@@ -12,7 +12,7 @@ const filterButtons = document.querySelectorAll(".filter-button");
 
 
 // API endpoint to fetch goals
-const BASE_URL = "http://localhost:8080/goals";
+const BASE_URL = "https://project-json-server-zqu4.onrender.com/";
 
 // App initialization
 document.addEventListener("DOMContentLoaded", initApp);
