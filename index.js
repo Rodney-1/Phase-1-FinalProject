@@ -1,21 +1,5 @@
-// Show today's date
-const dateElement = document.getElementById("current-date");
-const today = new Date();
-dateElement.textContent = `Today's Date: ${today.toDateString()}`;  
-
-// Elements selection
-const goalForm = document.getElementById("goal-form");
-const goalInput = document.getElementById("goal-input");
-const goalList = document.querySelector("#goal-list ul");
-const rewardDiv = document.querySelector("#reward");
-const filterButtons = document.querySelectorAll(".filter-button");
-
-
 // API endpoint to fetch goals
 const BASE_URL = "https://project-json-server-2.onrender.com/"
-
-// App initialization
-document.addEventListener("DOMContentLoaded", initApp);
 
 async function initApp() {
     await fetchGoals();    // Fetch goals from the server
@@ -138,6 +122,19 @@ function filterGoals(e) {
     fetchGoals(filter);
 }
 
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 
 
