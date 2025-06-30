@@ -1,0 +1,23 @@
+{
+  "name": "phase-1-finalproject",
+  "version": "1.0.0",
+  "description": "This is a very simple web application for tracking daily goals keyed in by a person. Basically shows progress of completing the set goals.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rodney-1/Phase-1-FinalProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rodney-1/Phase-1-FinalProject/issues"
+  },
+  "homepage": "https://github.com/Rodney-1/Phase-1-FinalProject#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
