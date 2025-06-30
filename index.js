@@ -1,5 +1,5 @@
 // API endpoint to fetch goals
-const BASE_URL = "https://project-json-server-2.onrender.com/"
+const BASE_URL = "https://project-json-server-3.onrender.com/"
 
 async function initApp() {
     await fetchGoals();    // Fetch goals from the server
